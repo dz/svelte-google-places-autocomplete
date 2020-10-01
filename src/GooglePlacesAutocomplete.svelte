@@ -15,10 +15,10 @@ $: selectedLocationName = value || ''
 onMount(() => {
   loadGooglePlacesLibrary(apiKey, () => {
     const autocomplete = new google.maps.places.Autocomplete(inputField, options)
-    
+
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace()
-      
+
       // There are circumstances where the place_changed event fires, but we
       // were NOT given location data. I only want to propagate the event if we
       // truly received location data from Google.
@@ -30,7 +30,7 @@ onMount(() => {
         })
       }
     })
-    
+
     dispatch('ready')
   })
 })
@@ -53,7 +53,7 @@ function onChange() {
 
 function onKeyDown(event) {
   const suggestionsAreVisible = document.getElementsByClassName('pac-item').length
-  
+
   if (event.key === 'Enter' || event.key === 'Tab') {
     if (suggestionsAreVisible) {
       const isSuggestionSelected = document.getElementsByClassName('pac-item-selected').length
@@ -66,7 +66,7 @@ function onKeyDown(event) {
   } else if (event.key === 'Escape') {
     setTimeout(emptyLocationField, 10)
   }
-  
+
   if (suggestionsAreVisible) {
     if (event.key === 'Enter') {
       /* When suggestions are visible, don't let an 'Enter' submit a form (since
@@ -98,4 +98,4 @@ function doesNotMatchSelectedLocation(value) {
 </script>
 
 <input bind:this={inputField} class={$$props.class} on:change={onChange}
-       on:keydown={onKeyDown} {placeholder} {value} />
+       on:keydown={onKeyDown} {placeholder} {value} autocomplete="off" name="notASearchField" />
